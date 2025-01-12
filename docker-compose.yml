@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: backend
+    networks:
+      - mern-network
+    ports:
+      - "9000:9000"
+    environment:
+      MONGO_URI: "mongodb://0.0.0.0:27017/gestion?useNewUrlParser=true&useUnifiedTopology=truecd"
+    restart: always
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: frontend
+    networks:
+      - mern-network
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: always
+
+networks:
+  mern-network:
+    driver: bridge
